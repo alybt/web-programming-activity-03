@@ -25,7 +25,7 @@
         they're available in PHP through $_POST superglobal.
     -->
 
-    <form action="" method="post">
+    <form action="viewproduct.php" method="post">
         <label for="">Product Name:</label>
         <br>
         <input type="text" name="product_name" required>
@@ -42,7 +42,7 @@
         <br>
         <label for="">Price (&#8369;):</label> <br>
             <input type="number" name="price" step= "0.01" required> <br>
-        <label for=""></label> <br>
+        <label for="">Stock Quantity</label> <br>
             <input type="number" name="stock_quantity" min="0" required> <br>
         <label for=""></label> <br>
             <input type="date" name="expiration_date"> <br>

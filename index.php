@@ -6,7 +6,26 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="get">
+    <!--
+    The Difference between GET and POST
+        GET:
+            In get it sends the form data append to the url.
+            Data is visible in the browser's address bar.
+            It limits the length of the data, usually up to 2000 characters.
+            It's better for bookmarking or when data doesn't need to be private.
+        
+        POST: 
+            It sends form data in HTTP request body, it's not visible in the URL.
+            More secure, useful for sensitive information like passwords.
+            No size limitation for form data.
+            It commonly used when updating and adding data in a database.
+        
+        When you change the forms' method to POST and click the submit button
+        the values are sent to the server but do NOT appear in the URL. Instead,
+        they're available in PHP through $_POST superglobal.
+    -->
+
+    <form action="" method="post">
         <label for="">Product Name:</label>
         <br>
         <input type="text" name="product_name" required>

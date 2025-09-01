@@ -1,3 +1,16 @@
+<script>
+    $product_name="";
+    $product_name_error = "";
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        // validation for product name
+        $product_name = trim(htmlspecialchars($_POST["product_name"]));
+        if(empty($product_name)){
+            $product_name_error="Product name is required";
+        }
+    }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +38,7 @@
         they're available in PHP through $_POST superglobal.
     -->
 
-    <form action="viewproduct.php" method="post">
+    <form action="" method="post">
         <label for="">Product Name:</label>
         <br>
         <input type="text" name="product_name"> 

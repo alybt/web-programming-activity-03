@@ -28,7 +28,10 @@
     <form action="viewproduct.php" method="post">
         <label for="">Product Name:</label>
         <br>
-        <input type="text" name="product_name" required>
+        <input type="text" name="product_name" required> 
+        <!-- 
+            4.1 It has alert that said you've been hacked
+        -->
         <br>
         <label for="">Category</label>
         <br>

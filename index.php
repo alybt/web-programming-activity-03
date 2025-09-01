@@ -42,6 +42,7 @@
         <label for="">Product Name:</label>
         <br>
         <input type="text" name="product_name"> 
+        <p style "color:red; margin: 0; <?php echo $product_name_error; ?>"></p>
         <!-- 
             4.1 It has alert that said you've been hacked
         -->

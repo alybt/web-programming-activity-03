@@ -1,60 +1,65 @@
 <?php
-
+// Initialize variables
 $product_name = $category = $price = $stock_quantity = $expiration_date = $status = "";
 $product_name_error = $category_error = $price_error = $stock_error = $expiration_error = $status_error = "";
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Product name
+    // Validation for product name
     $product_name = trim(htmlspecialchars($_POST["product_name"]));
     if (empty($product_name)) {
         $product_name_error = "Product name is required";
     }
 
-    // Category
-    $category = trim($_POST["category"]);
+    // Validation for category
+    $category = $_POST["category"];
     if (empty($category)) {
         $category_error = "Category is required";
     }
 
-    // Price
-    $price = trim($_POST["price"]);
+    // Validation for price
+    $price = $_POST["price"];
     if (empty($price)) {
         $price_error = "Price is required";
-    } elseif (!is_numeric($price)) {
-        $price_error = "Price must be a number";
-    } elseif ($price == 0) {
-        $price_error = "Price cannot be zero";
+    } elseif (!is_numeric($price) || $price == 0) {
+        $price_error = "Price must be a number and greater than zero";
     }
 
-    // Stock Quantity
-    $stock_quantity = trim($_POST["stock_quantity"]);
-    if (empty($stock_quantity)) {
-        $stock_error = "Stock quantity is required";
-    } elseif (!is_numeric($stock_quantity)) {
-        $stock_error = "Stock must be a number";
-    } elseif ($stock_quantity < 0) {
-        $stock_error = "Stock cannot be negative";
+    // Validation for stock
+    $stock_quantity = $_POST["stock_quantity"];
+    if ($stock_quantity === "") {
+        $stock_error = "Stock is required";
+    } elseif (!is_numeric($stock_quantity) || $stock_quantity < 0) {
+        $stock_error = "Stock must be a number and not negative";
     }
 
-    // Expiration Date
-    $expiration_date = trim($_POST["expiration_date"]);
+    // Validation for expiration date
+    $expiration_date = $_POST["expiration_date"];
     if (empty($expiration_date)) {
         $expiration_error = "Expiration date is required";
     } elseif (strtotime($expiration_date) < strtotime(date("Y-m-d"))) {
         $expiration_error = "Expiration date cannot be in the past";
     }
 
-    // Status
-    if (empty($_POST["status"])) {
+    // Validation for status
+    $status = $_POST["status"] ?? "";
+    if (empty($status)) {
         $status_error = "Status is required";
-    } else {
-        $status = $_POST["status"];
     }
 
-    // If no errors, redirect to viewproduct.php
-    if (empty($product_name_error) && empty($category_error) && empty($price_error) && empty($stock_error) && empty($expiration_error) && empty($status_error)) {
-        header("Location: viewproduct.php");
+    // If no errors, redirect to redirect.php with data
+    if (
+        empty($product_name_error) && empty($category_error) && empty($price_error) &&
+        empty($stock_error) && empty($expiration_error) && empty($status_error)
+    ) {
+        $query = http_build_query([
+            'product_name' => $product_name,
+            'category' => $category,
+            'price' => $price,
+            'stock_quantity' => $stock_quantity,
+            'expiration_date' => $expiration_date,
+            'status' => $status
+        ]);
+        header("Location: redirect.php?$query");
         exit();
     }
 }
@@ -65,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
     <title>Document</title>
 </head>
 <body>
@@ -91,40 +97,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             4.1 It has alert that said you've been hacked
         -->
 
-    <form action="" method="post">
-        <label>Product Name:</label><br>
-        <input type="text" name="product_name" value="<?php echo $product_name; ?>">
-        <p class="error"><?php echo $product_name_error; ?></p>
+        <div class="outer-box">
+            <div class="inner-box">
+                <form action="" method="post" style="width:100%;">
+                       <div class="options">
+                             <label>Product Name:</label><br>
+                            <input type="text" name="product_name" value="<?php echo $product_name; ?>">
+                            <p class="error"><?php echo $product_name_error; ?></p>
+                       </div>
 
-        <label>Category</label><br>
-        <select name="category">
-            <option value="">-- SELECT CATEGORY --</option>
-            <option value="Category A" <?php if($category=="Category A") echo "selected"; ?>>Category A</option>
-            <option value="Category B" <?php if($category=="Category B") echo "selected"; ?>>Category B</option>
-            <option value="Category C" <?php if($category=="Category C") echo "selected"; ?>>Category C</option>
-            <option value="Category D" <?php if($category=="Category D") echo "selected"; ?>>Category D</option>
-        </select>
-        <p class="error"><?php echo $category_error; ?></p>
+                        <div class="option">
+                            <label>Category</label><br>
+                            <select name="category">
+                                    <option value="">-- SELECT CATEGORY --</option>
+                                    <option value="Category A" <?php if($category=="Category A") echo "selected"; ?>>Category A</option>
+                                    <option value="Category B" <?php if($category=="Category B") echo "selected"; ?>>Category B</option>
+                                    <option value="Category C" <?php if($category=="Category C") echo "selected"; ?>>Category C</option>
+                                    <option value="Category D" <?php if($category=="Category D") echo "selected"; ?>>Category D</option>
+                            </select>
+                            <p class="error"><?php echo $category_error; ?></p>
+                        </div>
 
-        <label>Price (₱):</label><br>
-        <input type="number" name="price" step="0.01" value="<?php echo $price; ?>">
-        <p class="error"><?php echo $price_error; ?></p>
+                        <div class="option">
+                            <label>Price (₱):</label><br>
+                            <input type="number" name="price" step="0.01" value="<?php echo $price; ?>">
+                            <p class="error"><?php echo $price_error; ?></p>
+                        </div>
 
-        <label>Stock Quantity:</label><br>
-        <input type="number" name="stock_quantity" min="0" value="<?php echo $stock_quantity; ?>">
-        <p class="error"><?php echo $stock_error; ?></p>
+                        <div class="option">
+                            <label>Stock Quantity:</label><br>
+                            <input type="number" name="stock_quantity" min="0" value="<?php echo $stock_quantity; ?>">
+                            <p class="error"><?php echo $stock_error; ?></p>
+                        </div>
+                        
+                        <div class="option">
+                             <label>Expiration Date:</label><br>
+                            <input type="date" name="expiration_date" value="<?php echo $expiration_date; ?>">
+                            <p class="error"><?php echo $expiration_error; ?></p>
 
-        <label>Expiration Date:</label><br>
-        <input type="date" name="expiration_date" value="<?php echo $expiration_date; ?>">
-        <p class="error"><?php echo $expiration_error; ?></p>
+                        </div>
 
-        <label>Status:</label><br>
-        <input type="radio" name="status" value="active" <?php if($status=="active") echo "checked"; ?>> Active <br>
-        <input type="radio" name="status" value="inactive" <?php if($status=="inactive") echo "checked"; ?>> Inactive <br>
-        <p class="error"><?php echo $status_error; ?></p>
+                        <div class="option">
+                            <label>Status:</label><br>
+                            <input type="radio" name="status" value="active" <?php if($status=="active") echo "checked"; ?>> Active <br>
+                            <input type="radio" name="status" value="inactive" <?php if($status=="inactive") echo "checked"; ?>> Inactive <br>
+                            <p class="error"><?php echo $status_error; ?></p>
+                        </div>
+                        
 
-        <br>
-        <input type="submit" value="Save Product">
-    </form>
+                        
+
+                        
+
+                       
+
+                        
+
+                        <br>
+                        <input type="submit" value="Save Product">
+                </form>
+            </div>
+        </div>
 </body>
 </html>

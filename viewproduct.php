@@ -1,10 +1,32 @@
-<?php if ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
-<label>Product Name: <?php echo htmlspecialchars($_POST["product_name"]); ?></label><br>
-<label>Category: <?php echo htmlspecialchars($_POST["category"]); ?></label><br>
-<label>Price: <?php echo htmlspecialchars(number_format($_POST["price"], 2)); ?></label><br>
-<label>Stock Quantity: <?php echo htmlspecialchars($_POST["stock_quantity"]); ?></label><br>
-<label>Expiration Date: <?php echo htmlspecialchars(date("M-d-Y", strtotime($_POST["expiration_date"]))); ?></label><br>
-<label>Status: <?php echo htmlspecialchars($_POST["status"]); ?></label><br>
-<?php endif; ?>
-
-
+<?php
+$product_name = $_GET['product_name'] ?? '';
+$category = $_GET['category'] ?? '';
+$price = $_GET['price'] ?? '';
+$stock_quantity = $_GET['stock_quantity'] ?? '';
+$expiration_date = $_GET['expiration_date'] ?? '';
+$status = $_GET['status'] ?? '';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Product Details</title>
+</head>
+<body>
+    <div class="outer-box">
+        <div class="inner-box">
+            <h2>Product Saved Successfully!</h2>
+            <div style="width:100%;">
+                <p><strong>Product Name:</strong> <?php echo htmlspecialchars($product_name); ?></p>
+                <p><strong>Category:</strong> <?php echo htmlspecialchars($category); ?></p>
+                <p><strong>Price:</strong> ₱<?php echo htmlspecialchars($price); ?></p>
+                <p><strong>Stock Quantity:</strong> <?php echo htmlspecialchars($stock_quantity); ?></p>
+                <p><strong>Expiration Date:</strong> <?php echo htmlspecialchars($expiration_date); ?></p>
+                <p><strong>Status:</strong> <?php echo htmlspecialchars($status); ?></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

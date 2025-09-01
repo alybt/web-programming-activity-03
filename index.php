@@ -28,14 +28,14 @@
     <form action="viewproduct.php" method="post">
         <label for="">Product Name:</label>
         <br>
-        <input type="text" name="product_name" required> 
+        <input type="text" name="product_name"> 
         <!-- 
             4.1 It has alert that said you've been hacked
         -->
         <br>
         <label for="">Category</label>
         <br>
-        <select name="category" id="" required>
+        <select name="category" id="">
             <option value="">-- SELECT CATEGORY --</option>
             <option value="Category A">Category A</option>
             <option value="Category B">Category B</option>
@@ -44,9 +44,9 @@
         </select>
         <br>
         <label for="">Price (&#8369;):</label> <br>
-            <input type="number" name="price" step= "0.01" required> <br>
+            <input type="number" name="price" step= "0.01"> <br>
         <label for="">Stock Quantity</label> <br>
-            <input type="number" name="stock_quantity" min="0" required> <br>
+            <input type="number" name="stock_quantity" min="0"> <br>
         <label for=""></label> <br>
             <input type="date" name="expiration_date"> <br>
         <label for=""> Status: </label> <br>
